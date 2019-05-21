@@ -40,7 +40,7 @@ public class FileReader{
                 try{
                     reader.close();
                 } catch (IOException ex){
-                    log.error("Exception when closing the BufferedReader", ex);;
+                    log.error("Exception when closing the BufferedReader", ex);
                 }
             }
         }
