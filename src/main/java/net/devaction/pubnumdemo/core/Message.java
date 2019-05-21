@@ -11,8 +11,8 @@ import java.util.List;
 public class Message{
     private List<Tweet> tweets = new LinkedList<Tweet>();
     
-    public void add(Tweet message){
-        tweets.add(message);
+    public void add(Tweet tweet){
+        tweets.add(tweet);
     }
 
     public int size(){
@@ -27,8 +27,8 @@ public class Message{
         return tweets;
     }
 
-    public void setTweets(List<Tweet> messages){
-        this.tweets = messages;
+    public void setTweets(List<Tweet> tweets){
+        this.tweets = tweets;
     }
     
     public String getCountry(){
