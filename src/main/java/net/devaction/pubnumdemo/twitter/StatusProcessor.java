@@ -7,7 +7,7 @@ package net.devaction.pubnumdemo.twitter;
  */
 public interface StatusProcessor{
 
-    public void process(long id, long number, String country, String user, String text, 
-            long tweetCreatedAt);
+    public void process(long id, long number, String user, String text, long tweetCreatedAt, 
+            double longitude, double latitude);
 }
 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import net.devaction.pubnumdemo.util.DateFormatter;
+import twitter4j.GeoLocation;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -19,14 +20,8 @@ public class StatusListenerImpl implements StatusListener{
     
     private long tweetsNum;
     
-    private final String country;
-    
     // It needs to be injected
     private StatusProcessor statusProcessor; 
-    
-    public StatusListenerImpl(String country){
-        this.country = country;
-    }
     
     @Override
     public void onException(Exception ex){
@@ -35,13 +30,26 @@ public class StatusListenerImpl implements StatusListener{
 
     @Override
     public void onStatus(Status status){
-        log.trace("New Tweet received:\nCountry: {}\nUser: {}\nId: {}\nText: {}\n Created at: {}", 
-                country, status.getUser().getName(),
-                status.getId(), status.getText(), DateFormatter.getDateString(status.getCreatedAt()));
-        log.info("Number of tweets received from {} so far: {}", country, ++tweetsNum);
+        GeoLocation location = status.getGeoLocation();
         
-        statusProcessor.process(status.getId(), tweetsNum, country, status.getUser().getName(), 
-                status.getText(), status.getCreatedAt().getTime());
+        if (location == null){
+            log.warn("Assertion error: GeoLocation is null for this tweet, id: {}", status.getId());
+            statusProcessor.process(status.getId(), tweetsNum, status.getUser().getName(), 
+                    status.getText(), status.getCreatedAt().getTime(), -1.1303, 37.9861);
+            return;
+        }
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        
+        log.trace("New Tweet received:\nUser: {}\nId: {}\nText: {}\nCreated at: {}\n" + 
+                "Longitude: {}\nLatitude: {}", status.getUser().getName(), status.getId(), 
+                status.getText(), DateFormatter.getDateString(status.getCreatedAt()), 
+                longitude, latitude);
+        
+        log.info("Number of tweets received so far: {}", ++tweetsNum);
+        
+        statusProcessor.process(status.getId(), tweetsNum, status.getUser().getName(), 
+                status.getText(), status.getCreatedAt().getTime(), longitude, latitude);
     }
 
     @Override

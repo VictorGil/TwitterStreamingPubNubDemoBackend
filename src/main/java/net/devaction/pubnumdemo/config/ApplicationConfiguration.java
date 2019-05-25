@@ -14,14 +14,6 @@ public class ApplicationConfiguration{
     @JsonProperty("blocking_queue_capacity")
     private int blockingQueueCapacity;
     
-    // Maximum number of tweets in a PubNum message
-    @JsonProperty("max_tweet_num")
-    private int maxTweetNum; 
-
-    // Maximum milliseconds between sent PubNum messages
-    @JsonProperty("max_millis")
-    private int maxMillis; 
-    
     @JsonProperty("pubnum_publish_key")
     private String pubnumPublishKey;
         
@@ -36,16 +28,20 @@ public class ApplicationConfiguration{
     
     @JsonProperty("twitter_access_token")
     private String twitterAccessToken;
+
+    @JsonProperty("twitter_access_token_secret")
+    private String twitterAccessTokenSecret;
     
     @JsonProperty("countries")
     private Country[] countries;
 
     @Override
     public String toString(){
-        return "ApplicationConfiguration [blockingQueueCapacity=" + blockingQueueCapacity + ", maxTweetNum=" + maxTweetNum + 
-                ", maxMillis=" + maxMillis + ", pubnumPublishKey=[not shown], pubnumSubscribeKey=[not shown]" +
-                ", twitterConsumerKey=[not shown], twitterConsumerSecret=[not shown], twitterAccessToken=[not shown], "
-                + "countries=" + Arrays.toString(countries) + "]";
+        return "ApplicationConfiguration [blockingQueueCapacity=" + blockingQueueCapacity + 
+                ", pubnumPublishKey=[not shown], pubnumSubscribeKey=[not shown]" +
+                ", twitterConsumerKey=[not shown], twitterConsumerSecret=[not shown]" + 
+                ", twitterAccessToken=[not shown], twitterAccessTokenSecret=[not shown]" +
+                ", countries=" + Arrays.toString(countries) + "]";
     }
 
     // Getters and setters
@@ -97,20 +93,12 @@ public class ApplicationConfiguration{
         this.twitterAccessToken = twitterAccessToken;
     }
 
-    public int getMaxTweetNum(){
-        return maxTweetNum;
+    public String getTwitterAccessTokenSecret(){
+        return twitterAccessTokenSecret;
     }
 
-    public void setMaxTweetNum(int maxTweetNum){
-        this.maxTweetNum = maxTweetNum;
-    }
-
-    public int getMaxMillis(){
-        return maxMillis;
-    }
-
-    public void setMaxMillis(int maxMillis){
-        this.maxMillis = maxMillis;
+    public void setTwitterAccessTokenSecret(String twitterAccessTokenSecret){
+        this.twitterAccessTokenSecret = twitterAccessTokenSecret;
     }
 
     public Country[] getCountries(){

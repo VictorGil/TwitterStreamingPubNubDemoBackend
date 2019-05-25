@@ -21,7 +21,7 @@ public class MessagePublishedCallback extends PNCallback<PNPublishResult>{
             log.trace("Message successfully published");
         } else {
             log.error("Unable to publish the message to PubNub: {}", status.getCategory()); 
-            log.info("Error data:{}\n", status.getErrorData(), status.getErrorData().getThrowable());
+            log.info("Error data: {}\n", status.getErrorData(), status.getErrorData().getThrowable());
         }        
     }
 }

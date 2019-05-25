@@ -10,13 +10,26 @@ import net.devaction.pubnumdemo.core.TweetProcessor;
  */
 public class StatusProcessorImpl implements StatusProcessor{
     
-    // It needs to be injected
+    // These two need to be injected
     private TweetProcessor tweetProcessor;
-
-    public void process(long id, long number, String country, String user, String text, 
+    private CountryResolver countryResolver;    
+    
+    @Override
+    public void process(long id, long number, String user, String text, long tweetCreatedAt, double longitude, double latitude){
+        String countryName = null;
+        try{
+            countryName = countryResolver.resolve(longitude, latitude);
+        } catch (NoCountryException e){
+            return;
+        }
+        
+        process(id, number, countryName, user, text, tweetCreatedAt);
+    }
+    
+    public void process(long id, long number, String countryName, String user, String text, 
             long tweetCreatedAt){
         
-        Tweet tweet = createTweet(id, number, country, user, text, tweetCreatedAt);
+        Tweet tweet = createTweet(id, number, countryName, user, text, tweetCreatedAt);
         tweetProcessor.process(tweet);        
     }
     
@@ -36,6 +49,10 @@ public class StatusProcessorImpl implements StatusProcessor{
 
     public void setTweetProcessor(TweetProcessor tweetProcessor){
         this.tweetProcessor = tweetProcessor;
+    }
+
+    public void setCountryResolver(CountryResolver countryResolver){
+        this.countryResolver = countryResolver;
     }
 }
 

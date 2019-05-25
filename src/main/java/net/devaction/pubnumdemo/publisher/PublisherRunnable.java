@@ -33,16 +33,17 @@ public class PublisherRunnable implements Runnable{
     
     @Override
     public void run(){
-        Message multiMessage = null;
+        Message message = null;
         while (true){
             try{
-                multiMessage = queue.take();
+                message = queue.take();
             } catch (InterruptedException ex){
                 log.error(ex.toString(), ex);
                 return;
             }
-            log.trace("Going to publish a message. Message queue size: " + queue.size());
-            publish.message(multiMessage).channel(multiMessage.getCountry()).async(callback);
+            log.trace("Going to publish a message. Message queue size: {}, message:\n{}", 
+                    queue.size(), message);
+            publish.message(message).channel(message.getCountry()).async(callback);
         }        
     }
 

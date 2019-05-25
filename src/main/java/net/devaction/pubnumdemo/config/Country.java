@@ -24,13 +24,21 @@ public class Country{
     @JsonProperty("northEast_Latitude")
     private double northEastLatitude;
 
-
+    // Maximum number of tweets in a PubNum message
+    @JsonProperty("max_tweet_num")
+    private int maxTweetNum; 
+    
+    // Maximum milliseconds between sent PubNum messages
+    @JsonProperty("max_millis")
+    private int maxMillis;    
+    
     @Override
     public String toString(){
         return "Country [name=" + name + ", southWestLongitude=" + southWestLongitude + ", southWestLatitude=" + southWestLatitude
-                + ", northEastLongitude=" + northEastLongitude + ", northEastLatitude=" + northEastLatitude + "]";
-    }        
-    
+                + ", northEastLongitude=" + northEastLongitude + ", northEastLatitude=" + northEastLatitude + ", maxTweetNum=" + maxTweetNum
+                + ", maxMillis=" + maxMillis + "]";
+    }
+
     // Getters and setters
     public String getName(){
         return name;
@@ -70,6 +78,22 @@ public class Country{
 
     public void setNorthEastLatitude(double northEastLatitude){
         this.northEastLatitude = northEastLatitude;
+    }
+
+    public int getMaxTweetNum(){
+        return maxTweetNum;
+    }
+
+    public void setMaxTweetNum(int maxTweetNum){
+        this.maxTweetNum = maxTweetNum;
+    }
+
+    public int getMaxMillis(){
+        return maxMillis;
+    }
+
+    public void setMaxMillis(int maxMillis){
+        this.maxMillis = maxMillis;
     }
 }
 

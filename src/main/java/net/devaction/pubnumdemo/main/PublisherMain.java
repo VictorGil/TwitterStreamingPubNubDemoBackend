@@ -1,5 +1,6 @@
 package net.devaction.pubnumdemo.main;
 
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -13,10 +14,13 @@ import com.pubnub.api.endpoints.pubsub.Publish;
 import net.devaction.pubnumdemo.config.ApplicationConfiguration;
 import net.devaction.pubnumdemo.config.ConfigurationReader;
 import net.devaction.pubnumdemo.core.TweetProcessorImpl;
+import net.devaction.pubnumdemo.core.CountryData;
+import net.devaction.pubnumdemo.core.CountryMapConstructor;
 import net.devaction.pubnumdemo.core.Message;
 import net.devaction.pubnumdemo.publisher.MessagePublishedCallback;
 import net.devaction.pubnumdemo.publisher.PubNubConstructor;
 import net.devaction.pubnumdemo.publisher.PublisherRunnable;
+import net.devaction.pubnumdemo.twitter.CountryResolver;
 import net.devaction.pubnumdemo.twitter.StatusListenerImpl;
 import net.devaction.pubnumdemo.twitter.StatusProcessorImpl;
 import net.devaction.pubnumdemo.twitter.StreamConstructor;
@@ -58,29 +62,39 @@ public class PublisherMain implements SignalHandler{
                 configuration.getBlockingQueueCapacity());
         
         TweetProcessorImpl tweetProcessor = new TweetProcessorImpl(queue);
-        tweetProcessor.setMaxTweetNum(configuration.getMaxTweetNum());
-        tweetProcessor.setMaxMillis(configuration.getMaxMillis());
+        Map<String,CountryData> countryMap = CountryMapConstructor.construct(configuration.getCountries());
+        
+        tweetProcessor.setCountryMap(countryMap);
         
         StatusProcessorImpl statusProcessor = new StatusProcessorImpl();
         statusProcessor.setTweetProcessor(tweetProcessor);
         
-        StatusListenerImpl statusListener = new StatusListenerImpl("USA");
+        CountryResolver countryResolver = new CountryResolver(configuration.getCountries());
+        statusProcessor.setCountryResolver(countryResolver);
+        
+        StatusListenerImpl statusListener = new StatusListenerImpl();
         statusListener.setStatusProcessor(statusProcessor);
         
-        TwitterStreamListenerRunnable streamListenerRunnable = new TwitterStreamListenerRunnable("USA");
-        stream = new StreamConstructor().constructStream();
+        TwitterStreamListenerRunnable streamListenerRunnable = new TwitterStreamListenerRunnable(configuration.getCountries());
+        
+        StreamConstructor streamConstructor = new StreamConstructor();
+        streamConstructor.setAccessToken(configuration.getTwitterAccessToken());
+        streamConstructor.setAccessTokenSecret(configuration.getTwitterAccessTokenSecret());
+        streamConstructor.setConsumerKey(configuration.getTwitterConsumerKey());
+        streamConstructor.setConsumerSecret(configuration.getTwitterConsumerSecret());
+        
+        stream = streamConstructor.constructStream();
         
         streamListenerRunnable.setStream(stream);
         streamListenerRunnable.setListener(statusListener);
-        streamListenerRunnable.setSouthWestLongitude(-126.562500);
-        streamListenerRunnable.setSouthWestLatitude(30.448674);
-        streamListenerRunnable.setNorthEastLongitude(-61.171875);
-        streamListenerRunnable.setNorthEastLatitude(44.087585);
      
         MessagePublishedCallback messagePublishedCallback = new MessagePublishedCallback();
         
         PublisherRunnable publisherRunnable = new PublisherRunnable(queue);
-        PubNubConstructor pubNubConstructor = new  PubNubConstructor();        
+        
+        PubNubConstructor pubNubConstructor = new PubNubConstructor();        
+        pubNubConstructor.setPublishKey(configuration.getPubnumPublishKey());
+        pubNubConstructor.setSubscribeKey(configuration.getPubnumSubscribeKey());
         pubnub = pubNubConstructor.construct();
         
         Publish publish = pubnub.publish();
@@ -91,7 +105,7 @@ public class PublisherMain implements SignalHandler{
         publisherThread.setName("pubNubPublisher_thread");
         
         Thread twitterListenerThread = new Thread(streamListenerRunnable);
-        twitterListenerThread.setName("twitterListenerUSA_thread");
+        twitterListenerThread.setName("twitterListener_thread");
         
         // To be able to shutdown the application gracefully
         registerThisAsOsSignalHandler();
@@ -156,4 +170,3 @@ public class PublisherMain implements SignalHandler{
         }
     }    
 }
-
