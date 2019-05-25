@@ -31,6 +31,18 @@ public class Country{
     // Maximum milliseconds between sent PubNum messages
     @JsonProperty("max_millis")
     private int maxMillis;    
+
+    @JsonProperty("twitter_consumer_key")
+    private String twitterConsumerKey;
+    
+    @JsonProperty("twitter_consumer_secret")
+    private String twitterConsumerSecret;
+    
+    @JsonProperty("twitter_access_token")
+    private String twitterAccessToken;
+
+    @JsonProperty("twitter_access_token_secret")
+    private String twitterAccessTokenSecret;
     
     @Override
     public String toString(){
@@ -94,6 +106,38 @@ public class Country{
 
     public void setMaxMillis(int maxMillis){
         this.maxMillis = maxMillis;
+    }
+
+    public String getTwitterConsumerKey(){
+        return twitterConsumerKey;
+    }
+
+    public void setTwitterConsumerKey(String twitterConsumerKey){
+        this.twitterConsumerKey = twitterConsumerKey;
+    }
+
+    public String getTwitterConsumerSecret(){
+        return twitterConsumerSecret;
+    }
+
+    public void setTwitterConsumerSecret(String twitterConsumerSecret){
+        this.twitterConsumerSecret = twitterConsumerSecret;
+    }
+
+    public String getTwitterAccessTokenSecret(){
+        return twitterAccessTokenSecret;
+    }
+
+    public void setTwitterAccessTokenSecret(String twitterAccessTokenSecret){
+        this.twitterAccessTokenSecret = twitterAccessTokenSecret;
+    }
+
+    public void setTwitterAccessToken(String twitterAccessToken){
+        this.twitterAccessToken = twitterAccessToken;
+    }
+
+    public String getTwitterAccessToken(){
+        return twitterAccessToken;
     }
 }
 

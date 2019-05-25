@@ -18,20 +18,8 @@ public class ApplicationConfiguration{
     private String pubnumPublishKey;
         
     @JsonProperty("pubnum_subscribe_key")
-    private String pubnumSubscribeKey;
-    
-    @JsonProperty("twitter_consumer_key")
-    private String twitterConsumerKey;
-    
-    @JsonProperty("twitter_consumer_secret")
-    private String twitterConsumerSecret;
-    
-    @JsonProperty("twitter_access_token")
-    private String twitterAccessToken;
-
-    @JsonProperty("twitter_access_token_secret")
-    private String twitterAccessTokenSecret;
-    
+    private String pubnumSubscribeKey;    
+   
     @JsonProperty("countries")
     private Country[] countries;
 
@@ -39,8 +27,6 @@ public class ApplicationConfiguration{
     public String toString(){
         return "ApplicationConfiguration [blockingQueueCapacity=" + blockingQueueCapacity + 
                 ", pubnumPublishKey=[not shown], pubnumSubscribeKey=[not shown]" +
-                ", twitterConsumerKey=[not shown], twitterConsumerSecret=[not shown]" + 
-                ", twitterAccessToken=[not shown], twitterAccessTokenSecret=[not shown]" +
                 ", countries=" + Arrays.toString(countries) + "]";
     }
 
@@ -67,38 +53,6 @@ public class ApplicationConfiguration{
 
     public void setPubnumSubscribeKey(String pubnumSubscribeKey){
         this.pubnumSubscribeKey = pubnumSubscribeKey;
-    }
-
-    public String getTwitterConsumerKey(){
-        return twitterConsumerKey;
-    }
-
-    public void setTwitterConsumerKey(String twitterConsumerKey){
-        this.twitterConsumerKey = twitterConsumerKey;
-    }
-
-    public String getTwitterConsumerSecret(){
-        return twitterConsumerSecret;
-    }
-
-    public void setTwitterConsumerSecret(String twitterConsumerSecret){
-        this.twitterConsumerSecret = twitterConsumerSecret;
-    }
-
-    public String getTwitterAccessToken(){
-        return twitterAccessToken;
-    }
-
-    public void setTwitterAccessToken(String twitterAccessToken){
-        this.twitterAccessToken = twitterAccessToken;
-    }
-
-    public String getTwitterAccessTokenSecret(){
-        return twitterAccessTokenSecret;
-    }
-
-    public void setTwitterAccessTokenSecret(String twitterAccessTokenSecret){
-        this.twitterAccessTokenSecret = twitterAccessTokenSecret;
     }
 
     public Country[] getCountries(){

@@ -1,13 +1,8 @@
 {
   "blocking_queue_capacity": 1000,
 
-  "pubnum_publish_key": "*******************************************",
-  "pubnum_subscribe_key": "********************************************",
-
-  "twitter_consumer_key": "********************",
-  "twitter_consumer_secret": "*********************************************",
-  "twitter_access_token": "*******************-**************************",
-  "twitter_access_token_secret": "****************************************",
+  "pubnum_publish_key": "pub-********************************",
+  "pubnum_subscribe_key": "sub-******************************",
 
   "countries":[
      {"name": "USA",
@@ -16,7 +11,11 @@
       "northEast_Longitude": -61.171875, 
       "northEast_Latitude": 44.087585,
       "max_tweet_num": 20,
-      "max_millis": 200},
+      "max_millis": 200,
+      "twitter_consumer_key": "***********************",
+      "twitter_consumer_secret": "***********************************************",
+      "twitter_access_token": "**************-*********************************",
+      "twitter_access_token_secret": "*******************************************"},
 
      {"name": "UK",
       "southWest_Longitude": -7.871247,
@@ -24,7 +23,11 @@
       "northEast_Longitude": 4.968625, 
       "northEast_Latitude": 58.730501,
       "max_tweet_num": 10,
-      "max_millis": 150},
+      "max_millis": 150,
+      "twitter_consumer_key": "***********************",
+      "twitter_consumer_secret": "***********************************************",
+      "twitter_access_token": "**************-*********************************",
+      "twitter_access_token_secret": "*******************************************"},
             
      {"name": "Spain",
       "southWest_Longitude": -10,
@@ -32,6 +35,10 @@
       "northEast_Longitude": 5.16, 
       "northEast_Latitude": 42.87,
       "max_tweet_num": 5,
-      "max_millis": 300}
+      "max_millis": 300,
+      "twitter_consumer_key": "***********************",
+      "twitter_consumer_secret": "***********************************************",
+      "twitter_access_token": "**************-*********************************",
+      "twitter_access_token_secret": "*******************************************"}      
   ]   
 }

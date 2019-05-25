@@ -77,12 +77,9 @@ public class PublisherMain implements SignalHandler{
         CountryResolver countryResolver = new CountryResolver(configuration.getCountries());
         runnablesConstructor.setCountryResolver(countryResolver);
         
-        StreamConstructor streamConstructor = new StreamConstructor();
-        streamConstructor.setAccessToken(configuration.getTwitterAccessToken());
-        streamConstructor.setAccessTokenSecret(configuration.getTwitterAccessTokenSecret());
-        streamConstructor.setConsumerKey(configuration.getTwitterConsumerKey());
-        streamConstructor.setConsumerSecret(configuration.getTwitterConsumerSecret());        
-        runnablesConstructor.setStreamConstructor(streamConstructor);
+        List<StreamConstructor> streamConstructors = new StreamConstructorsConstructor()
+                .construct(configuration.getCountries());
+        runnablesConstructor.setStreamConstructors(streamConstructors);
             
         MessagePublishedCallback messagePublishedCallback = new MessagePublishedCallback();
         

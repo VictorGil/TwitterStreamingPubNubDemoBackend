@@ -1,5 +1,6 @@
 package net.devaction.pubnumdemo.twitter;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -31,7 +32,7 @@ public class ListenerRunnablesConstructor{
     private StatusProcessor statusProcessor;
     
     // It needs to be injected
-    private StreamConstructor streamConstructor;
+    private List<StreamConstructor> streamConstructors;
     
     public ListenerRunnablesConstructor(Country[] countries){
         this.countries = countries;
@@ -42,6 +43,8 @@ public class ListenerRunnablesConstructor{
         final ExecutorService executorService = Executors.newFixedThreadPool(countries.length, threadFactory);
                 
         final List<TwitterStream> streamList = new LinkedList<TwitterStream>();
+        
+        final Iterator<StreamConstructor> streamConstructorIter = streamConstructors.iterator();
         
         for (int i = 0; i < countries.length; i++){
             Country country = countries[i];
@@ -54,6 +57,7 @@ public class ListenerRunnablesConstructor{
             TwitterStreamListenerRunnable runnable = new TwitterStreamListenerRunnable(country);
             runnable.setListener(listener);            
 
+            StreamConstructor streamConstructor = streamConstructorIter.next();
             TwitterStream stream = streamConstructor.constructStream();
             runnable.setStream(stream);
             streamList.add(stream);
@@ -87,7 +91,7 @@ public class ListenerRunnablesConstructor{
         this.statusProcessor = statusProcessor;
     }
 
-    public void setStreamConstructor(StreamConstructor streamConstructor){
-        this.streamConstructor = streamConstructor;
-    } 
+    public void setStreamConstructors(List<StreamConstructor> streamConstructors){
+        this.streamConstructors = streamConstructors;
+    }
 }
