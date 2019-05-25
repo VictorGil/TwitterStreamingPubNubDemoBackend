@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.devaction</groupId>
-    <artifactId>pubnumdemo</artifactId>
+    <artifactId>pubnubdemo</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
