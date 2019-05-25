@@ -1,0 +1,37 @@
+{
+  "blocking_queue_capacity": 1000,
+
+  "pubnum_publish_key": "*******************************************",
+  "pubnum_subscribe_key": "********************************************",
+
+  "twitter_consumer_key": "********************",
+  "twitter_consumer_secret": "*********************************************",
+  "twitter_access_token": "*******************-**************************",
+  "twitter_access_token_secret": "****************************************",
+
+  "countries":[
+     {"name": "USA",
+      "southWest_Longitude": -126.562500,
+      "southWest_Latitude": 30.448674,
+      "northEast_Longitude": -61.171875, 
+      "northEast_Latitude": 44.087585,
+      "max_tweet_num": 20,
+      "max_millis": 200},
+
+     {"name": "UK",
+      "southWest_Longitude": -7.871247,
+      "southWest_Latitude": 50.077946,
+      "northEast_Longitude": 4.968625, 
+      "northEast_Latitude": 58.730501,
+      "max_tweet_num": 10,
+      "max_millis": 150},
+            
+     {"name": "Spain",
+      "southWest_Longitude": -10,
+      "southWest_Latitude": 37.71336,
+      "northEast_Longitude": 5.16, 
+      "northEast_Latitude": 42.87,
+      "max_tweet_num": 5,
+      "max_millis": 300}
+  ]   
+}
