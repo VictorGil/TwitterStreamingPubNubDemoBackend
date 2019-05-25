@@ -26,7 +26,11 @@ public class ConstructLocationsTester{
         log.info("Countries:\n{}", Arrays.toString(countries));
         
         TwitterStreamListenerRunnable streamListener = new TwitterStreamListenerRunnable();
-        double[][] locations = streamListener.constructLocations(countries);
+        Country country = countries[0];
+        double[][] locations = streamListener.constructLocations(country.getSouthWestLongitude(), 
+                country.getSouthWestLatitude(), country.getNorthEastLongitude(),
+                country.getNorthEastLatitude()); 
+        
         log.info("Locations matrix:\n{}", Arrays.deepToString(locations).replace("], ", "]\n"));
     }
     

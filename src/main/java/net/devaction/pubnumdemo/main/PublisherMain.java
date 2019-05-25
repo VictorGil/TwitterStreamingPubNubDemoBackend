@@ -1,5 +1,6 @@
 package net.devaction.pubnumdemo.main;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -21,6 +22,7 @@ import net.devaction.pubnumdemo.publisher.MessagePublishedCallback;
 import net.devaction.pubnumdemo.publisher.PubNubConstructor;
 import net.devaction.pubnumdemo.publisher.PublisherRunnable;
 import net.devaction.pubnumdemo.twitter.CountryResolver;
+import net.devaction.pubnumdemo.twitter.ListenerRunnablesConstructor;
 import net.devaction.pubnumdemo.twitter.StatusListenerImpl;
 import net.devaction.pubnumdemo.twitter.StatusProcessorImpl;
 import net.devaction.pubnumdemo.twitter.StreamConstructor;
@@ -41,9 +43,9 @@ public class PublisherMain implements SignalHandler{
     
     private static final String WINCH_SIGNAL = "WINCH";
     
-    private TwitterStream stream;
-    
     private PubNub pubnub;
+    
+    private List<TwitterStream> twitterStreams;
     
     public static void main(String[] args){
         new PublisherMain().run();
@@ -67,27 +69,21 @@ public class PublisherMain implements SignalHandler{
         tweetProcessor.setCountryMap(countryMap);
         
         StatusProcessorImpl statusProcessor = new StatusProcessorImpl();
-        statusProcessor.setTweetProcessor(tweetProcessor);
+        statusProcessor.setTweetProcessor(tweetProcessor);        
+      
+        ListenerRunnablesConstructor runnablesConstructor = new ListenerRunnablesConstructor(configuration.getCountries());
+        runnablesConstructor.setStatusProcessor(statusProcessor);
         
         CountryResolver countryResolver = new CountryResolver(configuration.getCountries());
-        statusProcessor.setCountryResolver(countryResolver);
-        
-        StatusListenerImpl statusListener = new StatusListenerImpl();
-        statusListener.setStatusProcessor(statusProcessor);
-        
-        TwitterStreamListenerRunnable streamListenerRunnable = new TwitterStreamListenerRunnable(configuration.getCountries());
+        runnablesConstructor.setCountryResolver(countryResolver);
         
         StreamConstructor streamConstructor = new StreamConstructor();
         streamConstructor.setAccessToken(configuration.getTwitterAccessToken());
         streamConstructor.setAccessTokenSecret(configuration.getTwitterAccessTokenSecret());
         streamConstructor.setConsumerKey(configuration.getTwitterConsumerKey());
-        streamConstructor.setConsumerSecret(configuration.getTwitterConsumerSecret());
-        
-        stream = streamConstructor.constructStream();
-        
-        streamListenerRunnable.setStream(stream);
-        streamListenerRunnable.setListener(statusListener);
-     
+        streamConstructor.setConsumerSecret(configuration.getTwitterConsumerSecret());        
+        runnablesConstructor.setStreamConstructor(streamConstructor);
+            
         MessagePublishedCallback messagePublishedCallback = new MessagePublishedCallback();
         
         PublisherRunnable publisherRunnable = new PublisherRunnable(queue);
@@ -102,16 +98,14 @@ public class PublisherMain implements SignalHandler{
         publisherRunnable.setCallback(messagePublishedCallback);        
         
         Thread publisherThread = new Thread(publisherRunnable);
-        publisherThread.setName("pubNubPublisher_thread");
+        publisherThread.setName("pubNubPublisher_thread");        
         
-        Thread twitterListenerThread = new Thread(streamListenerRunnable);
-        twitterListenerThread.setName("twitterListener_thread");
-        
-        // To be able to shutdown the application gracefully
+        // To be able to shutdown the application gracefully on a Linux system
         registerThisAsOsSignalHandler();
         
         publisherThread.start();
-        twitterListenerThread.start();
+
+        twitterStreams = runnablesConstructor.construct();
     }
     
     private void registerThisAsOsSignalHandler(){
@@ -129,7 +123,7 @@ public class PublisherMain implements SignalHandler{
     @Override
     public void handle(Signal signal){
         log.info("Signal {} has been captured.", signal.getName());
-        closeTwitter(stream);
+        closeTwitter(twitterStreams);
         sleep(1);
         closePubNub(pubnub);
         sleep(1);
@@ -137,15 +131,16 @@ public class PublisherMain implements SignalHandler{
         System.exit(0);
     }
     
-    private void closeTwitter(TwitterStream stream){
-        if (stream == null)
-            return;
-        
-        log.info("Going to clean up the Twitter Web API resources");
-        stream.cleanUp(); 
-        sleep(1);
-        log.info("Going to shutdown the Twitter stream");
-        stream.shutdown();
+    private void closeTwitter(List<TwitterStream> streams){
+        int i = 0;
+        for (TwitterStream stream: streams) {
+            i++;
+            log.info("Going to clean up Twitter Web API resources of the stream number {}", i);
+            stream.cleanUp(); 
+            sleep(1);
+            log.info("Going to shutdown the Twitter stream number {}", i);
+            stream.shutdown();
+        }
     }
     
     private void closePubNub(PubNub pubnub){

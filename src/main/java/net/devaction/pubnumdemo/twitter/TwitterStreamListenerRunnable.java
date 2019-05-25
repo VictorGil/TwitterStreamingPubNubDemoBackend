@@ -19,13 +19,13 @@ public class TwitterStreamListenerRunnable implements Runnable{
     // It needs to be injected
     private TwitterStream stream;
     
-    private Country[] countries;
+    private Country country;
     
     // It needs to be injected
     private StatusListener listener;
     
-    public TwitterStreamListenerRunnable(Country[] countries){
-        this.countries = countries;
+    public TwitterStreamListenerRunnable(Country country){
+        this.country = country;
     }
 
     // To be used just when testing
@@ -36,16 +36,20 @@ public class TwitterStreamListenerRunnable implements Runnable{
     public void run(){
         stream.addListener(listener); 
         
-        FilterQuery filter = contructFilter(countries);
+        FilterQuery filter = contructFilter(country);
         stream.filter(filter);
        
-        log.info("Starting {}", this.getClass().getSimpleName());
-        stream.sample();        
+        log.info("Starting {} for {}", this.getClass().getSimpleName(), country.getName());
+        stream.sample();
+        
+        log.info("{} for {} finished", this.getClass().getSimpleName(), country.getName());
     }
 
-    protected FilterQuery contructFilter(Country[] countries){
+    protected FilterQuery contructFilter(Country country){
 
-        double[][] locations = constructLocations(countries); 
+        double[][] locations = constructLocations(country.getSouthWestLongitude(), 
+                country.getSouthWestLatitude(), country.getNorthEastLongitude(),
+                country.getNorthEastLatitude()); 
                 
         FilterQuery filterQuery = new FilterQuery();        
         filterQuery.locations(locations); 
@@ -53,28 +57,22 @@ public class TwitterStreamListenerRunnable implements Runnable{
         return filterQuery;    
     }
     
-    protected double[][] constructLocations(Country[] countries){
-        double[][] locations = new double[countries.length * 2][2];
+    protected double[][] constructLocations(double southWestLongitude, double southWestLatitude, 
+            double northEastLongitude, double northEastLatitude){
         
-        int j = 0;
-        for (int i = 0; i < countries.length; i++){
-            locations[j] = new double[2];
-            locations[j][0] = countries[i].getSouthWestLongitude();
-            locations[j][1] = countries[i].getSouthWestLatitude();
-            locations[j + 1][0] = countries[i].getNorthEastLongitude();
-            locations[j + 1][1] = countries[i].getNorthEastLatitude();
-            j = j + 2;
-        }        
+        double[][] locations = new double[2][2];
+        locations[0] = new double[2];
+        
+        locations[0][0] = southWestLongitude;
+        locations[0][1] = southWestLatitude;
+        locations[1][0] = northEastLongitude;
+        locations[1][1] = northEastLatitude;
         
         return locations;
     }
     
     public void setStream(TwitterStream stream){
         this.stream = stream;
-    }
-
-    public StatusListener getListener(){
-        return listener;
     }
 
     public void setListener(StatusListener listener){
