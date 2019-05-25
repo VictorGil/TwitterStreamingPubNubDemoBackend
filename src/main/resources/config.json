@@ -1,8 +1,8 @@
 {
   "blocking_queue_capacity": 1000,
 
-  "pubnum_publish_key": "pub-********************************",
-  "pubnum_subscribe_key": "sub-******************************",
+  "pubnub_publish_key": "pub-********************************",
+  "pubnub_subscribe_key": "sub-******************************",
 
   "countries":[
      {"name": "USA",
