@@ -14,11 +14,11 @@ public class ApplicationConfiguration{
     @JsonProperty("blocking_queue_capacity")
     private int blockingQueueCapacity;
     
-    @JsonProperty("pubnum_publish_key")
-    private String pubnumPublishKey;
+    @JsonProperty("pubnub_publish_key")
+    private String pubnubPublishKey;
         
-    @JsonProperty("pubnum_subscribe_key")
-    private String pubnumSubscribeKey;    
+    @JsonProperty("pubnub_subscribe_key")
+    private String pubnubSubscribeKey;    
    
     @JsonProperty("countries")
     private Country[] countries;
@@ -26,7 +26,7 @@ public class ApplicationConfiguration{
     @Override
     public String toString(){
         return "ApplicationConfiguration [blockingQueueCapacity=" + blockingQueueCapacity + 
-                ", pubnumPublishKey=[not shown], pubnumSubscribeKey=[not shown]" +
+                ", pubnubPublishKey=[not shown], pubnubSubscribeKey=[not shown]" +
                 ", countries=" + Arrays.toString(countries) + "]";
     }
 
@@ -39,20 +39,20 @@ public class ApplicationConfiguration{
         this.blockingQueueCapacity = blockingQueueCapacity;
     }
 
-    public String getPubnumPublishKey(){
-        return pubnumPublishKey;
+    public String getPubnubPublishKey(){
+        return pubnubPublishKey;
     }
 
-    public void setPubnumPublishKey(String pubnumPublishKey){
-        this.pubnumPublishKey = pubnumPublishKey;
+    public void setPubnubPublishKey(String pubnubPublishKey){
+        this.pubnubPublishKey = pubnubPublishKey;
     }
 
-    public String getPubnumSubscribeKey(){
-        return pubnumSubscribeKey;
+    public String getPubnubSubscribeKey(){
+        return pubnubSubscribeKey;
     }
 
-    public void setPubnumSubscribeKey(String pubnumSubscribeKey){
-        this.pubnumSubscribeKey = pubnumSubscribeKey;
+    public void setPubnubSubscribeKey(String pubnubSubscribeKey){
+        this.pubnubSubscribeKey = pubnubSubscribeKey;
     }
 
     public Country[] getCountries(){

@@ -24,11 +24,11 @@ public class Country{
     @JsonProperty("northEast_Latitude")
     private double northEastLatitude;
 
-    // Maximum number of tweets in a PubNum message
+    // Maximum number of tweets in a PubNub message
     @JsonProperty("max_tweet_num")
     private int maxTweetNum; 
     
-    // Maximum milliseconds between sent PubNum messages
+    // Maximum milliseconds between sent PubNub messages
     @JsonProperty("max_millis")
     private int maxMillis;    
 

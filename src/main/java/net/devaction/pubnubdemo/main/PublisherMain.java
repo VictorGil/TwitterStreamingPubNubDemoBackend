@@ -86,8 +86,8 @@ public class PublisherMain implements SignalHandler{
         PublisherRunnable publisherRunnable = new PublisherRunnable(queue);
         
         PubNubConstructor pubNubConstructor = new PubNubConstructor();        
-        pubNubConstructor.setPublishKey(configuration.getPubnumPublishKey());
-        pubNubConstructor.setSubscribeKey(configuration.getPubnumSubscribeKey());
+        pubNubConstructor.setPublishKey(configuration.getPubnubPublishKey());
+        pubNubConstructor.setSubscribeKey(configuration.getPubnubSubscribeKey());
         pubnub = pubNubConstructor.construct();
         
         Publish publish = pubnub.publish();
