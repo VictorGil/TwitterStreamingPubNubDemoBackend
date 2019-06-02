@@ -64,7 +64,8 @@ public class StatusListenerImpl implements StatusListener{
         
         log.debug("Number of tweets received so far: {}", ++tweetsNum);
         
-        statusProcessor.process(status.getId(), tweetsNum, this.countryName, status.getUser().getName(), 
+        
+        statusProcessor.process(status.getId(), tweetsNum, this.countryName, status.getUser().getScreenName(), 
                 status.getText(), status.getCreatedAt().getTime());
     }
 
