@@ -32,7 +32,7 @@ public class TweetProcessorImpl implements TweetProcessor{
         
         countryMap.get(tweet.getCountry()).getMessage().add(tweet);
         
-        if (countryMap.get(tweet.getCountry()).getMessage().size() == countryMap.get(tweet.getCountry()).getMaxTweetNum() 
+        if (countryMap.get(tweet.getCountry()).getMessage().size() >= countryMap.get(tweet.getCountry()).getMaxTweetNum() 
                 || timeToSendIt(countryMap.get(tweet.getCountry()).getLastSentTimestamp(), 
                 countryMap.get(tweet.getCountry()).getMaxMillis())){
             
