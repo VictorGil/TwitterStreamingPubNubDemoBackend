@@ -8,7 +8,7 @@ import net.devaction.pubnubdemo.util.DateFormatter;
  * since May 2019
  */
 public class Tweet{
-    private long id;
+    private String id;
     private long number;
     private String country;
     private String user;
@@ -22,12 +22,12 @@ public class Tweet{
     }
 
     // Getters and setters
-    public long getId(){
+    public String getId(){
         return id;
     }
     
     public void setId(long id){
-        this.id = id;
+        this.id = String.valueOf(id);
     }
     
     public long getNumber(){
