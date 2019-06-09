@@ -14,6 +14,12 @@ Explanatory video on [YouTube](https://youtu.be/A0QXLJFLzm4)
  - Java 8+  
 
 ## Usage
+
 After compiling/building the application source code (`mvn clean install`), run the main class: 
 [PublisherMain](https://github.com/VictorGil/TwitterStreamingPubNubDemoBackend/blob/master/src/main/java/net/devaction/pubnubdemo/main/PublisherMain.java)  
-Please note that the directory `src/main/resources` must be included in the classpath.    
+Please note that the directory `src/main/resources` must be included in the classpath.  
+  
+To gracefully shutdown the application on a Linux system, send the `WINCH` signal to the running Java process, i.e.:
+```
+$ kill -WINCH <PID>
+```
