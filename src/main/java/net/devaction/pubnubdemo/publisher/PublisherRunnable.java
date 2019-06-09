@@ -43,6 +43,7 @@ public class PublisherRunnable implements Runnable{
             }
             log.trace("Going to publish a message. Message queue size: {}, message:\n{}", 
                     queue.size(), message);
+            
             publish.message(message).channel(message.getCountry()).async(callback);
         }        
     }
