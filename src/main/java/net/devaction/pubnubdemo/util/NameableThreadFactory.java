@@ -1,6 +1,7 @@
 package net.devaction.pubnubdemo.util;
 
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Víctor Gil
@@ -8,7 +9,8 @@ import java.util.concurrent.ThreadFactory;
  * since May 2019
  */
 public class NameableThreadFactory implements ThreadFactory{
-    private int threadsNum;
+    private final AtomicInteger threadCount = new AtomicInteger();
+
     private final String namePattern;
     
     public NameableThreadFactory(String baseName){
@@ -17,8 +19,6 @@ public class NameableThreadFactory implements ThreadFactory{
     
     @Override
     public Thread newThread(Runnable runnable){
-        threadsNum++;
-        return new Thread(runnable, String.format(namePattern, threadsNum));
+        return new Thread(runnable, String.format(namePattern, threadCount.addAndGet(1)));
     }    
 }
-
