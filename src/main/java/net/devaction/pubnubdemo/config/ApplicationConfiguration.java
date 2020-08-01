@@ -63,4 +63,3 @@ public class ApplicationConfiguration{
         this.countries = countries;
     }    
 }
-
