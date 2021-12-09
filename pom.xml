@@ -17,7 +17,7 @@
         
         <java.version>1.8</java.version>
         
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.9.10.8</jackson.version>
         
         <pubnum.version>4.23.0</pubnum.version>        
         <twitter4j.version>4.0.7</twitter4j.version>
